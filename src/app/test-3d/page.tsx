@@ -5,7 +5,7 @@ import Section5GlassShapes from '@/components/three/Section5GlassShapes'
 
 export default function Test3DPage() {
 	return (
-		<div className="min-h-screen bg-gradient-to-b from-background via-primary/10 to-background">
+		<div className="min-h-screen bg-linear-to-b from-background via-primary/10 to-background">
 			{/* Header */}
 			<div className="relative z-50 p-8">
 				<h1 className="text-4xl font-bold text-foreground mb-4">3D Glass Shapes Test</h1>
