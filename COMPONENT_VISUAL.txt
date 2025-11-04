@@ -1,0 +1,202 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                    HERO COMPONENT VISUAL STRUCTURE                       ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         FULL SCREEN CONTAINER                              │
+│                      (min-h-screen, grid layout)                           │
+│                                                                            │
+│  ╔═══════════════════════════════╦═══════════════════════════════════╗   │
+│  ║                               ║                                   ║   │
+│  ║   TEXT CONTENT (Left Col)     ║   IMAGE SECTION (Right Col)       ║   │
+│  ║   z-index: 10                 ║   z-index: 5                      ║   │
+│  ║                               ║                                   ║   │
+│  ║   ┌─────────────────────┐     ║   ┌───────────────────────────┐   ║   │
+│  ║   │                     │     ║   │                           │   ║   │
+│  ║   │  MAKEUP ARTIST      │     ║   │    Hero Image             │   ║   │
+│  ║   │  (Huge Typography)  │     ║   │    (1920x1080)            │   ║   │
+│  ║   │                     │     ║   │    -scale-x-100           │   ║   │
+│  ║   │  75px → 380px       │     ║   │                           │   ║   │
+│  ║   │  (responsive)       │     ║   │    ┌────────────────┐     │   ║   │
+│  ║   │                     │     ║   │    │ Gradient       │     │   ║   │
+│  ║   └─────────────────────┘     ║   │    │ Overlay        │     │   ║   │
+│  ║                               ║   │    │ (left→right)   │     │   ║   │
+│  ║   ┌─────────────────────┐     ║   │    │ bg→transparent│     │   ║   │
+│  ║   │  Maeva Cinquin      │     ║   │    └────────────────┘     │   ║   │
+│  ║   │  Subtitle           │     ║   │                           │   ║   │
+│  ║   │  (text-4xl→7xl)     │     ║   └───────────────────────────┘   ║   │
+│  ║   └─────────────────────┘     ║                                   ║   │
+│  ║                               ║                                   ║   │
+│  ╚═══════════════════════════════╩═══════════════════════════════════╝   │
+│                                                                            │
+│                          ┌──────────────┐                                 │
+│                          │      ↓       │  Scroll Indicator               │
+│                          │   (bounce)   │  z-index: 40                    │
+│                          └──────────────┘  (bottom center)                │
+│                                                                            │
+│  ╔════════════════════════════════════════════════════════════════════╗   │
+│  ║        GLITTERING PARTICLES BACKGROUND (z-index: 0)                ║   │
+│  ║                                                                    ║   │
+│  ║    •    ✦         ✧       •     ✦          •      ✧              ║   │
+│  ║         •    ✧       •        ✦      •          ✦     •          ║   │
+│  ║    ✦         •     ✧     •         ✦    •      ✦         ✧       ║   │
+│  ║  •     ✧         ✦     •      ✧         •    ✦        •    ✧     ║   │
+│  ║      •        ✦       ✧     •       ✦        •    ✧        •     ║   │
+│  ║  ✦       •         •     ✧        •      ✦         •    ✧        ║   │
+│  ║    •         ✧        ✦      •         ✧      •        ✦    •    ║   │
+│  ║        ✦        •        ✧        ✦        •       ✧         •   ║   │
+│  ║                                                                    ║   │
+│  ║  (50 particles, random positions, float animations)               ║   │
+│  ╚════════════════════════════════════════════════════════════════════╝   │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                         PARTICLE ANIMATION FLOW                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+    Frame 0%              Frame 50%             Frame 100%
+    ────────              ─────────             ──────────
+       •                     •                      •
+    (y: 0)              (y: -20px)               (y: 0)
+    (rot: 0°)           (rot: 5°)                (rot: 0°)
+
+    Duration: 2-5 seconds (randomized per particle)
+    Timing: ease-in-out infinite
+    GPU Accelerated: transform, will-change
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                         RESPONSIVE BREAKPOINTS                           ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────┬──────────────┬────────────────┬──────────────────────────┐
+│  Device     │  Screen Size │  Title Size    │  Layout                  │
+├─────────────┼──────────────┼────────────────┼──────────────────────────┤
+│  Mobile     │  < 640px     │  75px          │  Stacked (1 column)      │
+│  Tablet     │  640-1024px  │  125-180px     │  Stacked (1 column)      │
+│  Desktop    │  1024-1536px │  210px         │  Grid (2 columns)        │
+│  2XL        │  1536-1920px │  285px         │  Grid (2 columns)        │
+│  3XL        │  > 1920px    │  380px         │  Grid (2 columns)        │
+└─────────────┴──────────────┴────────────────┴──────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                            Z-INDEX LAYERS                                ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+    z-40: Scroll Indicator (↓)
+    ──────────────────────────────────
+    z-10: Text Content (Title + Subtitle)
+    ──────────────────────────────────
+    z-5:  Image Section + Gradient Overlay
+    ──────────────────────────────────
+    z-0:  Glittering Particles Background
+    ══════════════════════════════════
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                         FILE DEPENDENCIES                                ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+    component.tsx
+         │
+         ├─→ "use client" directive (React hooks)
+         │
+         ├─→ useState, useEffect, useRef
+         │
+         ├─→ GlitteringParticles (internal)
+         │       └─→ Renders 50 particles with float animation
+         │
+         └─→ Component (Hero Section)
+                 ├─→ Uses GlitteringParticles
+                 ├─→ Text content (h1, h2)
+                 ├─→ Image section (img + gradient)
+                 └─→ Scroll indicator (svg icon)
+
+    index.css
+         │
+         ├─→ @import "tailwindcss"
+         ├─→ @import "tw-animate-css"
+         │
+         ├─→ @theme inline (CSS variables)
+         │
+         ├─→ @keyframes float-slow
+         ├─→ @keyframes float-medium
+         │
+         └─→ :root, .dark (color themes)
+
+    demos/default.tsx
+         │
+         └─→ imports Component from "@/components/ui/component"
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                         COLOR PALETTE (Dark Theme)                       ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+    --primary: oklch(0.922 0 0)         ████ (Particle color, borders)
+    --background: oklch(0.145 0 0)      ████ (Main background)
+    --foreground: oklch(0.985 0 0)      ████ (Text, icons)
+    --accent: oklch(0.269 0 0)          ████ (Highlights)
+    --muted: oklch(0.269 0 0)           ████ (Secondary elements)
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                      PERFORMANCE OPTIMIZATIONS                           ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+    ✓ GPU Acceleration
+      └─→ will-change: transform on particles
+
+    ✓ CSS Animations (not JavaScript)
+      └─→ No repaints, handled by compositor
+
+    ✓ Fixed Positioning
+      └─→ Particles don't trigger layout shifts
+
+    ✓ Pointer Events None
+      └─→ Overlays don't block interactions
+
+    ✓ Optimized Reflows
+      └─→ Minimal DOM manipulation
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                         ACCESSIBILITY FEATURES                           ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+    ✓ Semantic HTML (h1, h2 hierarchy)
+    ✓ Alt text on images
+    ✓ Keyboard navigation friendly
+    ✓ High contrast text
+    ⚠ TODO: prefers-reduced-motion support
+    ⚠ TODO: Focus indicators on interactive elements
+
+
+╔══════════════════════════════════════════════════════════════════════════╗
+║                              CUSTOMIZATION                               ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+    Props:
+      title="Your Title"              → Main heading text
+      subtitle="Your Subtitle"         → Secondary heading
+      imageSrc="/your-image.jpg"       → Hero image path
+      imageAlt="Description"           → Accessibility text
+
+    Particles:
+      speed={0.5}                      → Slower animation
+      particleCount={100}              → More particles
+
+    Colors (CSS):
+      --primary: oklch(...)            → Change particle color
+      --background: oklch(...)         → Change background
+
+    Animations (CSS):
+      @keyframes float-slow { ... }    → Modify movement pattern
+
+
+═══════════════════════════════════════════════════════════════════════════
+                          END OF VISUAL DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════
