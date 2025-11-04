@@ -7,8 +7,7 @@
 
 'use client'
 
-import { Environment } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+import { GlassShapesCanvas } from './GlassShapesCanvas'
 import { GlassPolygonShape, type GlassPolygonShapeProps } from './shapes/GlassPolygonShape'
 
 export default function Section5GlassShapes() {
@@ -41,25 +40,10 @@ export default function Section5GlassShapes() {
 	]
 
 	return (
-		<div className="absolute inset-0 pointer-events-none z-0 overflow-visible">
-			<Canvas
-				dpr={1}
-				camera={{ position: [0, 0, 600], fov: 50 }}
-				gl={{
-					alpha: true,
-					antialias: false,
-					powerPreference: 'high-performance',
-				}}
-				style={{ pointerEvents: 'none' }}
-			>
-				<ambientLight intensity={0.6} />
-				<directionalLight position={[5, 5, 5]} intensity={1.2} />
-				<pointLight position={[-5, -5, 2]} intensity={0.5} color="#ffffff" />
-				<Environment preset="warehouse" />
-				{shapes.map(shapeProps => (
-					<GlassPolygonShape key={`${shapeProps.type}-${shapeProps.position.join('-')}`} {...shapeProps} />
-				))}
-			</Canvas>
-		</div>
+		<GlassShapesCanvas zIndex={0}>
+			{shapes.map(shapeProps => (
+				<GlassPolygonShape key={`${shapeProps.type}-${shapeProps.position.join('-')}`} {...shapeProps} />
+			))}
+		</GlassShapesCanvas>
 	)
 }
