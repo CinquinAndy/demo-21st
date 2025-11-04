@@ -152,7 +152,7 @@ export function GlassPolygonShape(props: GlassPolygonShapeProps) {
 	// Create geometry (memoized to prevent recreation on every render)
 	const geometry = useMemo(
 		() => createExtrudedPolygon(SHAPE_TO_SIDES[props.type], props.size, props.holeRatio, props.depth),
-		[props.type, props.size, props.holeRatio, props.depth],
+		[props.type, props.size, props.holeRatio, props.depth]
 	)
 
 	// Animate rotation on every frame
@@ -195,4 +195,3 @@ export function GlassPolygonShape(props: GlassPolygonShapeProps) {
 		</mesh>
 	)
 }
-

@@ -10,4 +10,3 @@ export { default as Section5GlassShapes } from './Section5GlassShapes'
 
 // Reusable glass polygon shape component
 export { GlassPolygonShape, type GlassPolygonShapeProps, type GlassPolygonType } from './shapes/GlassPolygonShape'
-

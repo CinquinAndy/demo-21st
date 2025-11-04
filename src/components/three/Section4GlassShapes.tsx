@@ -103,15 +103,11 @@ export default function Section4GlassShapes() {
 				<ambientLight intensity={0.6} />
 				<directionalLight position={[5, 5, 5]} intensity={1.2} />
 				<pointLight position={[-5, -5, 2]} intensity={0.5} color="#ffffff" />
-			<Environment preset="warehouse" />
-			{shapes.map((shapeProps) => (
-				<GlassPolygonShape
-					key={`${shapeProps.type}-${shapeProps.position.join('-')}`}
-					{...shapeProps}
-				/>
-			))}
+				<Environment preset="warehouse" />
+				{shapes.map(shapeProps => (
+					<GlassPolygonShape key={`${shapeProps.type}-${shapeProps.position.join('-')}`} {...shapeProps} />
+				))}
 			</Canvas>
 		</div>
 	)
 }
-

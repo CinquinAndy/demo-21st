@@ -1,26 +1,220 @@
 @import "tailwindcss";
 
+/*
+ * Neova Landing - Dark Theme Only
+ * All CSS variables use OKLCH color space for better perceptual uniformity
+ */
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+	/* Colors - Dark Theme (permanent) */
+	--background: oklch(0.1776 0 0);
+	--foreground: oklch(1 0 0);
+	--card: oklch(0.3211 0 0);
+	--card-foreground: oklch(1 0 0);
+	--popover: oklch(0.3211 0 0);
+	--popover-foreground: oklch(1 0 0);
+	--primary: oklch(0.6721 0.1676 275.6616);
+	--primary-foreground: oklch(0.1776 0 0);
+	--secondary: oklch(0.8335 0.1523 178.8407);
+	--secondary-foreground: oklch(0.1776 0 0);
+	--muted: oklch(0.2178 0 0);
+	--muted-foreground: oklch(0.8452 0 0);
+	--accent: oklch(0.8335 0.1523 178.8407);
+	--accent-foreground: oklch(0.1776 0 0);
+	--destructive: oklch(1 0 0);
+	--destructive-foreground: oklch(0.1776 0 0);
+	--border: oklch(1 0 0);
+	--input: oklch(1 0 0);
+	--ring: oklch(0.6721 0.1676 275.6616);
+
+	/* Chart Colors */
+	--chart-1: oklch(0.8695 0.0638 273.3126);
+	--chart-2: oklch(0.7868 0.1062 273.1118);
+	--chart-3: oklch(0.6721 0.1676 275.6616);
+	--chart-4: oklch(0.5841 0.2113 275.8732);
+	--chart-5: oklch(0.5041 0.2404 275.0448);
+
+	/* Sidebar */
+	--sidebar: oklch(0.1776 0 0);
+	--sidebar-foreground: oklch(1 0 0);
+	--sidebar-primary: oklch(0.6721 0.1676 275.6616);
+	--sidebar-primary-foreground: oklch(0.1776 0 0);
+	--sidebar-accent: oklch(0.8335 0.1523 178.8407);
+	--sidebar-accent-foreground: oklch(0.1776 0 0);
+	--sidebar-border: oklch(1 0 0);
+	--sidebar-ring: oklch(0.6721 0.1676 275.6616);
+
+	/* Typography */
+	--font-sans: DM Sans, sans-serif;
+	--font-serif: Lora, serif;
+	--font-mono: IBM Plex Mono, monospace;
+
+	/* Border Radius */
+	--radius: 0px;
+
+	/* Shadows */
+	--shadow-x: 4px;
+	--shadow-y: 4px;
+	--shadow-blur: 0px;
+	--shadow-spread: 0px;
+	--shadow-opacity: 1;
+	--shadow-color: hsl(0 0% 0%);
+	--shadow-2xs: 4px 4px 0px 0px hsl(0 0% 0% / 0.5);
+	--shadow-xs: 4px 4px 0px 0px hsl(0 0% 0% / 0.5);
+	--shadow-sm: 4px 4px 0px 0px hsl(0 0% 0% / 1), 4px 1px 2px -1px hsl(0 0% 0% / 1);
+	--shadow: 4px 4px 0px 0px hsl(0 0% 0% / 1), 4px 1px 2px -1px hsl(0 0% 0% / 1);
+	--shadow-md: 4px 4px 0px 0px hsl(0 0% 0% / 1), 4px 2px 4px -1px hsl(0 0% 0% / 1);
+	--shadow-lg: 4px 4px 0px 0px hsl(0 0% 0% / 1), 4px 4px 6px -1px hsl(0 0% 0% / 1);
+	--shadow-xl: 4px 4px 0px 0px hsl(0 0% 0% / 1), 4px 8px 10px -1px hsl(0 0% 0% / 1);
+	--shadow-2xl: 4px 4px 0px 0px hsl(0 0% 0% / 2.5);
+
+	/* Spacing */
+	--tracking-normal: 0em;
+	--spacing: 0.25rem;
 }
 
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+	--font-sans: var(--font-sans);
+	--font-mono: var(--font-mono);
+	--font-serif: var(--font-serif);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--shadow-2xs: var(--shadow-2xs);
+	--shadow-xs: var(--shadow-xs);
+	--shadow-sm: var(--shadow-sm);
+	--shadow: var(--shadow);
+	--shadow-md: var(--shadow-md);
+	--shadow-lg: var(--shadow-lg);
+	--shadow-xl: var(--shadow-xl);
+	--shadow-2xl: var(--shadow-2xl);
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
-	}
+.underline-animation {
+	position: relative;
+}
+
+.underline-animation::after {
+	content: "";
+	position: absolute;
+	bottom: -2px;
+	left: 50%;
+	width: 0;
+	height: 2px;
+	background-color: var(--foreground);
+	transition: width 0.3s ease;
+	transform: translateX(-50%);
+}
+
+.underline-animation:hover::after {
+	width: 100%;
+}
+
+/* Base rules */
+* {
+	box-sizing: border-box;
+	list-style: none;
+	text-decoration: none;
+}
+
+button *,
+a *,
+button,
+a {
+	@apply cursor-pointer;
 }
 
 body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+	--sb-track-color: var(--foreground);
+	--sb-thumb-color: var(--accent);
+	--sb-size: 7px;
+}
+
+body,
+html {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+html,
+body {
+	overflow-x: hidden;
+}
+
+/* Apply muted foreground only to specific pages (not landing) */
+body:not(:has(.landing-page)) p {
+	@apply text-muted-foreground;
+}
+
+@layer utilities {
+	/* Apply noise texture overlay to any element */
+	.noise-overlay {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.noise-overlay::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		background-color: transparent;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+		background-repeat: repeat;
+		background-size: 182px;
+		opacity: 0.12;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	/* Variant with lighter opacity */
+	.noise-overlay-light::before {
+		opacity: 0.08;
+	}
+
+	/* Variant with stronger opacity */
+	.noise-overlay-strong::before {
+		opacity: 0.18;
+	}
+
+	/* Children of noise-overlay should be positioned above the texture */
+	.noise-overlay > * {
+		position: relative;
+		z-index: 2;
+	}
 }
