@@ -159,3 +159,13 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+/* Custom background styles for WebGL canvas */
+.custom-bg,
+.custom-bg * {
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
