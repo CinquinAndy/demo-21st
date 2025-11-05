@@ -311,7 +311,7 @@ export const Component = ({
       <FadeIn className="lg:ml-10 absolute top-20 left-0 text-center xl:text-left z-10 opacity-100 h-full flex flex-col justify-center items-center xl:items-start gap-4 xl:gap-10 px-4">
         {/* Main Title - Large Typography with SlideInFromBottom animation */}
         <SlideInFromBottom delay={0.2} duration={0.8}>
-          <h1 className="text-[75px]/[75px] sm:text-[125px]/[125px] lg:text-[180px]/[180px] xl:text-[210px]/[210px] 2xl:text-[285px]/[285px] 3xl:text-[380px]/[380px] uppercase text-foreground max-w-7xl font-bold tracking-tight">
+          <h1 className="text-[75px]/[1.2] sm:text-[125px]/[1.2] lg:text-[180px]/[1.2] xl:text-[210px]/[1.2] 2xl:text-[285px]/[1.2] 3xl:text-[380px]/[1.2] uppercase text-foreground max-w-7xl font-bold tracking-tight">
             {title}
           </h1>
         </SlideInFromBottom>
