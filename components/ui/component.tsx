@@ -1,32 +1,124 @@
 "use client";
 
 /**
- * GlitterFinal Component
+ * Hero Component with WebGL Glitter Effect and Framer Motion Animations
  *
- * Advanced glittering effect using Three.js and custom shaders.
- * Creates a realistic sparkling/glitter overlay effect across the entire screen.
+ * A complete hero section featuring:
+ * - WebGL shader-based glitter effect (GlitterFinal)
+ * - Smooth Framer Motion entrance animations
+ * - Responsive typography (75px → 380px)
+ * - Two-column grid layout
+ * - Image with gradient overlay
  *
- * Features:
- * - Custom WebGL shaders for realistic glitter effect
- * - Procedural noise texture generation
- * - GPU-accelerated rendering via Three.js
- * - Configurable speed and intensity
- * - Blend mode support for overlay effects
- *
- * Technical Implementation:
- * - Uses fragment shader to sample noise texture at multiple scales
- * - Applies power function (pow 12.0) for sharp sparkle effect
- * - Animates texture sampling over time for dynamic sparkles
- *
- * @param speed - Animation speed multiplier (default: 1)
- * @param intensity - Sparkle intensity multiplier (default: 5.0)
- * @param className - Additional CSS classes for container
+ * This file contains everything needed - no external dependencies except npm packages.
  */
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { motion, type Variants } from "motion/react";
+import { useMemo, useRef, type ReactNode } from "react";
 import * as THREE from "three";
-import { FadeIn, SlideInFromBottom } from "@/components/animations";
+
+// ============================================================================
+// UTILITIES
+// ============================================================================
+
+/**
+ * Utility function to merge class names
+ * Combines clsx and tailwind-merge functionality
+ */
+function cn(...inputs: string[]): string {
+  return inputs.filter(Boolean).join(" ");
+}
+
+// ============================================================================
+// ANIMATION COMPONENTS
+// ============================================================================
+
+interface AnimationWrapperProps {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  duration?: number;
+}
+
+// Animation variants
+const fadeInVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: (custom: number) => ({
+    opacity: 1,
+    transition: {
+      duration: custom || 0.6,
+      ease: "easeOut",
+    },
+  }),
+};
+
+const slideInFromBottomVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: (custom: { delay?: number; duration?: number }) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: custom?.duration || 0.6,
+      delay: custom?.delay || 0,
+      ease: "easeOut",
+    },
+  }),
+};
+
+/**
+ * FadeIn Component
+ * Fades in element immediately on mount (no scroll detection)
+ */
+function FadeIn({
+  children,
+  className,
+  duration = 0.6,
+  delay = 0,
+}: AnimationWrapperProps) {
+  return (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={fadeInVariants}
+      custom={duration}
+      className={className}
+      style={{ willChange: "opacity" }}
+      transition={{ delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * SlideInFromBottom Component
+ * Slides element up from bottom when entering viewport
+ */
+function SlideInFromBottom({
+  children,
+  className,
+  delay = 0,
+  duration = 0.6,
+}: AnimationWrapperProps) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={slideInFromBottomVariants}
+      custom={{ delay, duration }}
+      className={className}
+      style={{ willChange: "transform, opacity" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ============================================================================
+// WEBGL GLITTER EFFECT
+// ============================================================================
 
 // Vertex shader - passes UV coordinates to fragment shader
 const vertexShader = `
@@ -38,7 +130,6 @@ const vertexShader = `
 `;
 
 // Fragment shader - creates the glitter effect
-// Adapted from Shadertoy shader with noise texture sampling
 const fragmentShader = `
   uniform float iTime;
   uniform vec2 iResolution;
@@ -50,7 +141,6 @@ const fragmentShader = `
     float result = 0.0;
 
     // Sample noise texture at different scales and speeds
-    // This creates the dynamic glitter effect
     result += texture2D(iChannel0, uv * 1.1 + vec2(iTime * -0.005)).r;
     result *= texture2D(iChannel0, uv * 0.9 + vec2(iTime * 0.005)).g;
 
@@ -64,20 +154,12 @@ const fragmentShader = `
 
 /**
  * Generate a random noise texture for the glitter effect
- *
- * Creates a procedural noise texture with random RGB values.
- * This texture is sampled by the fragment shader to create sparkles.
- *
- * @param size - Texture resolution (default: 512x512)
- * @returns THREE.DataTexture with random noise data
  */
 function generateNoiseTexture(size = 512): THREE.DataTexture {
   const data = new Uint8Array(size * size * 4);
 
   for (let i = 0; i < size * size; i++) {
     const stride = i * 4;
-
-    // Generate random noise for each color channel
     const r = Math.random() * 255;
     const g = Math.random() * 255;
     const b = Math.random() * 255;
@@ -85,7 +167,7 @@ function generateNoiseTexture(size = 512): THREE.DataTexture {
     data[stride] = r;
     data[stride + 1] = g;
     data[stride + 2] = b;
-    data[stride + 3] = 255; // Full opacity
+    data[stride + 3] = 255;
   }
 
   const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
@@ -104,18 +186,12 @@ interface SparklesPlaneProps {
 }
 
 /**
- * SparklesPlane Component
- *
- * Renders a plane with custom shader material for glitter effect.
- * Updates shader uniforms every frame for animation.
+ * SparklesPlane - Renders plane with shader material
  */
 function SparklesPlane({ speed = 1, intensity: _intensity = 5.0 }: SparklesPlaneProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
-
-  // Generate noise texture once on mount (memoized)
   const noiseTexture = useMemo(() => generateNoiseTexture(512), []);
 
-  // Create shader material with custom uniforms
   const material = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
@@ -135,13 +211,9 @@ function SparklesPlane({ speed = 1, intensity: _intensity = 5.0 }: SparklesPlane
     });
   }, [noiseTexture]);
 
-  // Update shader uniforms every frame
   useFrame((state) => {
     if (meshRef.current && meshRef.current.material instanceof THREE.ShaderMaterial) {
-      // Animate time uniform for moving glitter effect
       meshRef.current.material.uniforms.iTime.value = state.clock.elapsedTime * speed;
-
-      // Update resolution in case of window resize
       meshRef.current.material.uniforms.iResolution.value.set(
         state.size.width,
         state.size.height
@@ -151,7 +223,6 @@ function SparklesPlane({ speed = 1, intensity: _intensity = 5.0 }: SparklesPlane
 
   return (
     <mesh ref={meshRef} material={material}>
-      {/* Large plane to cover entire viewport */}
       <planeGeometry args={[10, 10]} />
     </mesh>
   );
@@ -165,22 +236,19 @@ interface GlitterFinalProps {
 
 /**
  * GlitterFinal Component
- *
- * Main export - wraps Three.js canvas with glitter effect.
- * Positioned as fixed overlay with blend mode for integration.
- *
- * @param speed - Animation speed (default: 1)
- * @param intensity - Effect intensity (default: 5.0)
- * @param className - Additional CSS classes
+ * WebGL shader-based glitter effect overlay
  */
-export const GlitterFinal = ({
+export function GlitterFinal({
   speed = 1,
   intensity = 5.0,
   className = "",
-}: GlitterFinalProps) => {
+}: GlitterFinalProps) {
   return (
     <div
-      className={`fixed z-0 scale-125 custom-bg inset-0 w-full h-full opacity-50 mix-blend-lighten pointer-events-none ${className}`}
+      className={cn(
+        "fixed z-0 scale-125 inset-0 w-full h-full opacity-50 mix-blend-lighten pointer-events-none",
+        className
+      )}
       style={{ width: "100vw", height: "100vh" }}
     >
       <Canvas
@@ -195,30 +263,16 @@ export const GlitterFinal = ({
         }}
         gl={{ powerPreference: "high-performance" }}
       >
-        {/* Dark background color */}
         <color attach="background" args={["#111111"]} />
-
-        {/* Render sparkles plane with shader */}
         <SparklesPlane speed={speed} intensity={intensity} />
       </Canvas>
     </div>
   );
-};
+}
 
-/**
- * Hero Section Component
- *
- * Main hero section with:
- * - Large responsive typography
- * - Image with gradient overlay
- * - Scroll indicator
- * - Integrated GlitterFinal effect
- *
- * Layout:
- * - Two-column grid on desktop (text left, image right)
- * - Single column on mobile (stacked)
- * - Full-screen height
- */
+// ============================================================================
+// HERO COMPONENT
+// ============================================================================
 
 interface HeroSectionProps {
   title?: string;
@@ -229,6 +283,17 @@ interface HeroSectionProps {
   glitterIntensity?: number;
 }
 
+/**
+ * Component - Main Hero Section
+ *
+ * Full-screen hero with:
+ * - WebGL glitter background
+ * - Animated text content (title + subtitle)
+ * - Hero image with gradient overlay
+ * - Scroll indicator
+ *
+ * Responsive typography scales from 75px (mobile) to 380px (3xl screens)
+ */
 export const Component = ({
   title = "Makeup Artist",
   subtitle = "Maeva Cinquin - Maquilleuse Professionnelle",
