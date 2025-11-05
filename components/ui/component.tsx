@@ -26,6 +26,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
+import { FadeIn, SlideInFromBottom } from "@/components/animations";
 
 // Vertex shader - passes UV coordinates to fragment shader
 const vertexShader = `
@@ -237,25 +238,32 @@ export const Component = ({
   glitterIntensity = 5.0,
 }: HeroSectionProps) => {
   return (
-    <div className="min-w-screen h-screen min-h-screen grid grid-cols-1 xl:grid-cols-2 relative z-10">
+    <div className="min-w-screen h-screen min-h-screen grid grid-cols-1 xl:grid-cols-2 relative 2xl:-translate-y-20 z-10">
       {/* GlitterFinal background effect - WebGL shader-based sparkles */}
       <GlitterFinal speed={glitterSpeed} intensity={glitterIntensity} />
 
-      {/* Text Content Section - Left Side */}
-      <div className="lg:ml-10 absolute top-20 left-0 text-center xl:text-left z-10 opacity-100 h-full flex flex-col justify-center items-center xl:items-start gap-4 xl:gap-10 px-4">
-        {/* Main Title - Large Typography with responsive sizing */}
-        <h1 className="text-[75px]/[75px] sm:text-[125px]/[125px] lg:text-[180px]/[180px] xl:text-[210px]/[210px] 2xl:text-[285px]/[285px] uppercase text-foreground max-w-7xl font-bold tracking-tight">
-          {title}
-        </h1>
+      {/* Text Content Section - Left Side with FadeIn animation */}
+      <FadeIn className="lg:ml-10 absolute top-20 left-0 text-center xl:text-left z-10 opacity-100 h-full flex flex-col justify-center items-center xl:items-start gap-4 xl:gap-10 px-4">
+        {/* Main Title - Large Typography with SlideInFromBottom animation */}
+        <SlideInFromBottom delay={0.2} duration={0.8}>
+          <h1 className="text-[75px]/[75px] sm:text-[125px]/[125px] lg:text-[180px]/[180px] xl:text-[210px]/[210px] 2xl:text-[285px]/[285px] 3xl:text-[380px]/[380px] uppercase text-foreground max-w-7xl font-bold tracking-tight">
+            {title}
+          </h1>
+        </SlideInFromBottom>
 
-        {/* Subtitle - Secondary Typography */}
-        <h2 className="lg:text-5xl 2xl:text-6xl text-4xl font-bold text-foreground">
-          {subtitle}
-        </h2>
-      </div>
+        {/* Subtitle - Secondary Typography with delayed SlideInFromBottom */}
+        <SlideInFromBottom delay={0.4} duration={0.8}>
+          <h2 className="lg:text-5xl 2xl:text-6xl 3xl:text-7xl text-4xl font-bold text-foreground">
+            {subtitle}
+          </h2>
+        </SlideInFromBottom>
+      </FadeIn>
 
-      {/* Scroll Indicator - Bottom Center with bounce animation */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex justify-center items-center z-40 animate-bounce">
+      {/* Scroll Indicator - Bottom Center with FadeIn and bounce animation */}
+      <FadeIn
+        delay={0.6}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex justify-center items-center z-40"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -266,14 +274,14 @@ export const Component = ({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-foreground"
+          className="text-foreground animate-bounce"
         >
           <path d="M12 5v14M19 12l-7 7-7-7" />
         </svg>
-      </div>
+      </FadeIn>
 
-      {/* Image Section - Right Side */}
-      <div className="w-full h-full col-span-1 lg:col-start-2 relative z-5">
+      {/* Image Section - Right Side with FadeIn animation */}
+      <FadeIn delay={0.3} className="w-full h-full col-span-1 lg:col-start-2 relative z-5">
         {/* Hero Image with horizontal flip (-scale-x-100) */}
         <img
           src={imageSrc}
@@ -283,7 +291,7 @@ export const Component = ({
 
         {/* Gradient Overlay - Smooth transition from background color to transparent */}
         <div className="absolute z-5 inset-0 bg-gradient-to-r from-background via-background/15 via-background/25 to-transparent pointer-events-none" />
-      </div>
+      </FadeIn>
     </div>
   );
 };

@@ -44,6 +44,9 @@
 
   /* Default radius */
   --radius: 0.5rem;
+
+  /* Custom breakpoint for very large screens */
+  --breakpoint-3xl: 1920px;
 }
 
 /* Light theme variables */
