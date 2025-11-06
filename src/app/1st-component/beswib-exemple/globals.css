@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 0 0% 3.9%;
+		--card: 0 0% 100%;
+		--card-foreground: 0 0% 3.9%;
+		--popover: 0 0% 100%;
+		--popover-foreground: 0 0% 3.9%;
+		--primary: 259.8145 0.188 62.31%;
+		--primary-foreground: 0 0% 100%;
+		--secondary: 264.5 0.002 97.2%;
+		--secondary-foreground: 256.8 0.01 30%;
+		--muted: 247.8 0.0015 98.5%;
+		--muted-foreground: 264.36 0.02 46%;
+		--accent: 236.82 0.02 96%;
+		--accent-foreground: 265.52 0.12 28%;
+		--destructive: 25.3313 0.2078 63.68%;
+		--destructive-foreground: 0 0% 100%;
+		--border: 264.53 0.004 89%;
+		--input: 264.53 0.004 89%;
+		--ring: 259.8145 0.188 62.31%;
+		--radius: 0.5rem;
+	}
+
+	.dark {
+		--background: 0 0% 20.46%;
+		--foreground: 0 0% 92.19%;
+		--card: 0 0% 26.86%;
+		--card-foreground: 0 0% 92.19%;
+		--popover: 0 0% 26.86%;
+		--popover-foreground: 0 0% 92.19%;
+		--primary: 259.8145 0.188 62.31%;
+		--primary-foreground: 0 0% 100%;
+		--secondary: 0 0% 26.86%;
+		--secondary-foreground: 0 0% 92.19%;
+		--muted: 0 0% 26.86%;
+		--muted-foreground: 0 0% 71.55%;
+		--accent: 265.5222 0.1378 37.91%;
+		--accent-foreground: 254.1284 0.0571 88.23%;
+		--destructive: 25.3313 0.2078 63.68%;
+		--destructive-foreground: 0 0% 100%;
+		--border: 0 0% 37.15%;
+		--input: 0 0% 37.15%;
+		--ring: 259.8145 0.188 62.31%;
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+}
+
+/* Custom animations for the hero component */
+@layer utilities {
+	.animate-fade-in-up {
+		animation: fade-in-up 0.5s ease-out forwards;
+	}
+
+	@keyframes fade-in-up {
+		0% {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
